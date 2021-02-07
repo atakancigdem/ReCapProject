@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Entities.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Entities.Concrete
 {
-    public class Car
+    public class Car : IEntity
     {
-        public int CarId { get; set; } // Kimlik
+        public int Id { get; set; } // Kimlik
         public int BrandId { get; set; } // Marka
         public int ColorId { get; set; } // Renk
         public int ModelYear { get; set; } // Model Yılı
