@@ -16,19 +16,50 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
+        public void Add(Brand brand)
+        {
+            if (brand.BrandName.Length > 2)
+            {
+                _brandDal.Update(brand);
+                Console.WriteLine("Araba başarıyla güncellendi.");
+            }
+            else
+            {
+                Console.WriteLine($"Lütfen günlük fiyat kısmını 0'dan büyük giriniz. ");
+            }
+        }
+
+        public void Delete(Brand brand)
+        {
+            _brandDal.Delete(brand);
+        }
+
         public List<Brand> GetAll()
         {
             return _brandDal.GetAll();
         }
 
-        public List<Brand> GetBrandId(int brand)
+        public Brand GetBrandId(int brand)
         {
-            return _brandDal.GetAll(b => b.BrandId == brand);
+            return _brandDal.Get(b => b.BrandId == brand);
         }
 
-        public List<Brand> GetBrandName(string brandName)
+        public Brand GetBrandName(string brandName)
         {
-            return _brandDal.GetAll(b => b.BrandName == brandName);
+            return _brandDal.Get(b => b.BrandName == brandName);
+        }
+
+        public void Update(Brand brand)
+        {
+            if (brand.BrandName.Length > 2)
+            {
+                _brandDal.Update(brand);
+                Console.WriteLine("Araba başarıyla güncellendi.");
+            }
+            else
+            {
+                Console.WriteLine($"Lütfen günlük fiyat kısmını 0'dan büyük giriniz.");
+            }
         }
     }
 }

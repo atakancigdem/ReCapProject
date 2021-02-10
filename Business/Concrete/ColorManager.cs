@@ -16,19 +16,50 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
+        public void Add(Color color)
+        {
+            if (color.ColorName.Length > 2)
+            {
+                _colorDal.Update(color);
+                Console.WriteLine("Araba başarıyla güncellendi.");
+            }
+            else
+            {
+                Console.WriteLine($"Lütfen günlük fiyat kısmını 0'dan büyük giriniz. ");
+            }
+        }
+
+        public void Delete(Color color)
+        {
+            _colorDal.Delete(color);
+        }
+
         public List<Color> GetAll()
         {
             return _colorDal.GetAll();
         }
 
-        public List<Color> GetColorId(int color)
+        public Color GetColorId(int color)
         {
-            return _colorDal.GetAll(c => c.ColorId == color);
+            return _colorDal.Get(c => c.ColorId == color);
         }
 
-        public List<Color> GetColorName(string colorName)
+        public Color GetColorName(string colorName)
         {
-            return _colorDal.GetAll(c => c.ColorName == colorName);
+            return _colorDal.Get(c => c.ColorName == colorName);
+        }
+
+        public void Update(Color color)
+        {
+            if (color.ColorName.Length > 2)
+            {
+                _colorDal.Update(color);
+                Console.WriteLine("Araba başarıyla güncellendi.");
+            }
+            else
+            {
+                Console.WriteLine($"Lütfen günlük fiyat kısmını 0'dan büyük giriniz. ");
+            }
         }
     }
 }
