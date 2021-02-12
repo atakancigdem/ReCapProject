@@ -1,4 +1,7 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Abstract;
+using Core.Utilities.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -16,50 +19,45 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public void Add(Brand brand)
+        public IResult Add(Brand brand)
         {
-            if (brand.BrandName.Length > 2)
+            if(brand.BrandName.Length < 2)
             {
-                _brandDal.Update(brand);
-                Console.WriteLine("Araba başarıyla güncellendi.");
+                return new ErrorResult(Message.BrandNameInvalid);
             }
-            else
-            {
-                Console.WriteLine($"Lütfen günlük fiyat kısmını 0'dan büyük giriniz. ");
-            }
+            _brandDal.Add(brand);
+            return new SuccessResult(Message.BrandAdded);
         }
 
-        public void Delete(Brand brand)
+        public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);
+            return new SuccessResult(Message.BrnadDeleted);
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _brandDal.GetAll();
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Message.BrandsListed);
         }
 
-        public Brand GetBrandId(int brand)
+        public IDataResult<Brand> GetBrandId(int brand)
         {
-            return _brandDal.Get(b => b.BrandId == brand);
+            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == brand)); 
         }
 
-        public Brand GetBrandName(string brandName)
+        public IDataResult<Brand> GetBrandName(string brandName)
         {
-            return _brandDal.Get(b => b.BrandName == brandName);
+            return new SuccessDataResult<Brand> (_brandDal.Get(b => b.BrandName == brandName));
         }
 
-        public void Update(Brand brand)
+        public IResult Update(Brand brand)
         {
-            if (brand.BrandName.Length > 2)
+            if (brand.BrandName.Length < 2)
             {
-                _brandDal.Update(brand);
-                Console.WriteLine("Araba başarıyla güncellendi.");
+                return new ErrorResult(Message.BrandNameInvalid);
             }
-            else
-            {
-                Console.WriteLine($"Lütfen günlük fiyat kısmını 0'dan büyük giriniz.");
-            }
+            _brandDal.Update(brand);
+            return new SuccessResult(Message.BrandUpdated);
         }
     }
 }

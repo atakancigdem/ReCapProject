@@ -7,8 +7,8 @@ namespace Entities.Concrete
 {
     public class Car : IEntity
     {
-        public int Id { get; set; } // Kimlik
-        public string CarName { get; set; }
+        public int CarId { get; set; } // Kimlik
+        public string CarName { get; set; } // İsim
         public int BrandId { get; set; } // Marka
         public int ColorId { get; set; } // Renk
         public int ModelYear { get; set; } // Model Yılı
