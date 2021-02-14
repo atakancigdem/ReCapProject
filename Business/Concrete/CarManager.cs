@@ -49,6 +49,7 @@ namespace Business.Concrete
         public IDataResult<List<Car>> GetByld(int carId)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.CarId == carId), Message.CarFound);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.CarId != carId), Message.NoCarFound);
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
