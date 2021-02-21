@@ -1,10 +1,14 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core.Utilities.Abstract;
-using Core.Utilities.Concrete;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspect.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,60 +24,52 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
-        {
-            if (car.CarName.Length < 2)
-            {
-                return new ErrorResult(Message.CarNameInvalid);
-            }
+        {    
             _carDal.Add(car);
-            return new SuccessResult(Message.CarAdded);
+            return new SuccessResult(Messages.CarAdded);
         }
 
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
-            return new SuccessResult(Message.CarDeleted);
+            return new SuccessResult(Messages.CarDeleted);
         }
 
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.Hour == 18)
             {
-                return new ErrorDataResult<List<Car>>(Message.MaintenanceTime);
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
             }
 
-            return new SuccessDataResult<List<Car>>( _carDal.GetAll(), Message.CarsListed);
+            return new SuccessDataResult<List<Car>>( _carDal.GetAll(), Messages.CarsListed);
         }
 
         public IDataResult<List<Car>> GetByld(int carId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.CarId == carId), Message.CarFound);
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.CarId != carId), Message.NoCarFound);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.CarId == carId), Messages.CarFound);
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarDetails);
         }
 
-        public IDataResult<List<Car>> GetCarsByBrandId(int brand)
+        public IDataResult<Car> GetCarsByBrandId(int brand)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brand));
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.BrandId == brand));
         }
-        public IDataResult<List<Car>> GetCarsByColorId(int color)
+        public IDataResult<Car> GetCarsByColorId(int color)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == color));
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.ColorId == color));
         }
 
         public IResult Update(Car car)
         {
-            if (car.CarName.Length < 2)
-            {
-                return new ErrorResult(Message.CarNameInvalid);
-            }
             _carDal.Update(car);
-            return new SuccessResult(Message.CarUpdated);
+            return new SuccessResult(Messages.CarUpdated);
         }
     }
 }

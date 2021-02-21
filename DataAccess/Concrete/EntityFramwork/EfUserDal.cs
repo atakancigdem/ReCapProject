@@ -57,7 +57,6 @@ namespace DataAccess.Concrete.EntityFramwork
                 updatedEntity.State = EntityState.Modified;
                 context.SaveChanges();
             }
-            throw new NotImplementedException();
         }
     }
 }

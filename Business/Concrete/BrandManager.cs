@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core.Utilities.Abstract;
-using Core.Utilities.Concrete;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -21,23 +23,20 @@ namespace Business.Concrete
 
         public IResult Add(Brand brand)
         {
-            if(brand.BrandName.Length < 2)
-            {
-                return new ErrorResult(Message.BrandNameInvalid);
-            }
+            ValidationTool.Validate(new BrandValidator(), brand);
             _brandDal.Add(brand);
-            return new SuccessResult(Message.BrandAdded);
+            return new SuccessResult(Messages.BrandAdded);
         }
 
         public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);
-            return new SuccessResult(Message.BrnadDeleted);
+            return new SuccessResult(Messages.BrnadDeleted);
         }
 
         public IDataResult<List<Brand>> GetAll()
         {
-            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Message.BrandsListed);
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandsListed);
         }
 
         public IDataResult<Brand> GetBrandId(int brand)
@@ -52,12 +51,9 @@ namespace Business.Concrete
 
         public IResult Update(Brand brand)
         {
-            if (brand.BrandName.Length < 2)
-            {
-                return new ErrorResult(Message.BrandNameInvalid);
-            }
+            ValidationTool.Validate(new BrandValidator(), brand);
             _brandDal.Update(brand);
-            return new SuccessResult(Message.BrandUpdated);
+            return new SuccessResult(Messages.BrandUpdated);
         }
     }
 }

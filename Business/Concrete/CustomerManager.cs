@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core.Utilities.Abstract;
-using Core.Utilities.Concrete;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -22,23 +24,24 @@ namespace Business.Concrete
 
         public IResult Add(Customer customer)
         {
+            ValidationTool.Validate(new CustomerValidator(), customer);
             _customerDal.Add(customer);
-            return new SuccessResult(Message.CustomerAdded);
+            return new SuccessResult(Messages.CustomerAdded);
         }
 
         public IResult Delete(Customer customer)
         {
             _customerDal.Delete(customer);
-            return new SuccessResult(Message.CustomerDeleted);
+            return new SuccessResult(Messages.CustomerDeleted);
         }
 
         public IDataResult<List<Customer>> GetAll()
         {
             if(DateTime.Now.Hour == 23)
             {
-                return new ErrorDataResult<List<Customer>>(Message.MaintenanceTime);
+                return new ErrorDataResult<List<Customer>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Message.CustomersListed);
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomersListed);
         }
 
         public IDataResult<List<CustomerDetailDto>> GetCustomerDetail()
@@ -48,13 +51,14 @@ namespace Business.Concrete
 
         public IDataResult<Customer> GetCustomerId(int customerId)
         {
-            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerId == customerId), Message.CustomerFound);
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerId == customerId), Messages.CustomerFound);
         }
 
         public IResult Update(Customer customer)
         {
+            ValidationTool.Validate(new CustomerValidator(), customer);
             _customerDal.Update(customer);
-            return new SuccessResult(Message.CustomerUpdate);
+            return new SuccessResult(Messages.CustomerUpdate);
         }
     }
 }

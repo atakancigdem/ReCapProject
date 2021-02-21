@@ -75,7 +75,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("addcar")]
+        [HttpPost("add")]
         public IActionResult Add(Car car)
         {
             var result = _carService.Add(car);
@@ -86,7 +86,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("deletecar")]
+        [HttpDelete("delete")]
         public IActionResult Delete(Car car)
         {
             var result = _carService.Delete(car);
@@ -97,7 +97,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut("updatecar")]
+        [HttpPut("update")]
         public IActionResult Update(Car car)
         {
             var result = _carService.Update(car);

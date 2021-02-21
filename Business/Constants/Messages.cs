@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Business.Constants
 {
-    public static class Message
+    public static class Messages
     {
         // CAR
         public static string CarAdded = "Araba Eklendi.";
@@ -14,6 +14,7 @@ namespace Business.Constants
         public static string CarFound = "Araba Bulundu";
         public static string NoCarFound = "Araba Bulunamadı.";
         public static string CarNameInvalid = "Araba İsmi Geçersiz";
+        public static string CarDetails = "Araç Detayları Listelendi";
 
         // BRAND
         public static string BrandAdded = "Marka Eklendi.";
@@ -49,6 +50,10 @@ namespace Business.Constants
         public static string RentalUpdate = "Araba Kiralama Bilgisi Güncellendi";
         public static string RentalDelete = "Araba Kiralama Bilgisi Silindi";
         public static string RentalsListed = "Araba kiralama Bilgileri Listelendi";
+        public static string RentalsDetail = "Kiralama Detayları Listelendi.";
+        public static string CustomerIdFound = "Müşteri Bulundu.";
+        public static string RentalByIdFound = "Kiralama Bilgisi Bulundu";
+        
 
         // SYSTEM
         public static string MaintenanceTime = "Sistem Bakımda";

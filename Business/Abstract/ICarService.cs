@@ -1,4 +1,4 @@
-﻿using Core.Utilities.Abstract;
+﻿using Core.Utilities.Results.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -11,8 +11,8 @@ namespace Business.Abstract
     {
         IDataResult<List<Car>> GetAll();
         IDataResult<List<CarDetailDto>> GetCarDetails();
-        IDataResult<List<Car>> GetCarsByBrandId(int brand);
-        IDataResult<List<Car>> GetCarsByColorId(int color);
+        IDataResult<Car> GetCarsByBrandId(int brand);
+        IDataResult<Car> GetCarsByColorId(int color);
         IDataResult<List<Car>> GetByld(int carId);
         IResult Add(Car car);
         IResult Update(Car car);

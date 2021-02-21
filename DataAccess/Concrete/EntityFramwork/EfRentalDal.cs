@@ -22,12 +22,13 @@ namespace DataAccess.Concrete.EntityFramwork
                              join ca in context.Cars on r.CarId equals ca.CarId
                              select new RentalDetailDto
                              {
-                                 Id = r.Id,    
+                                 Id = r.Id,
                                  CarId = ca.CarId,
                                  CarName = ca.CarName,
                                  CompanyName = c.CompanyName,
                                  FirstName = u.FirstName,
                                  LastName = u.LastName,
+                                 Email = u.Email,
                                  RentDate = r.RentDate,
                                  ReturnDate = r.ReturnDate,
                              };

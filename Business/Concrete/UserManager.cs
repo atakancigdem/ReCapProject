@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core.Utilities.Abstract;
-using Core.Utilities.Concrete;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -21,32 +23,29 @@ namespace Business.Concrete
 
         public IResult Add(User user)
         {
-            if (user.FirstName.Length < 2 || user.LastName.Length < 2 || user.Password.Length < 4)
-            {
-                return new ErrorResult(Message.UserNameInvalid);
-            }
+            ValidationTool.Validate(new UserValidator(), user);
             _userDal.Add(user);
-            return new SuccessResult(Message.UserAdded);
+            return new SuccessResult(Messages.UserAdded);
         }
 
         public IResult Delete(User user)
         {
             _userDal.Delete(user);
-            return new SuccessResult(Message.UserDeleted);
+            return new SuccessResult(Messages.UserDeleted);
         }
 
         public IDataResult<List<User>> GetAll()
         {
             if(DateTime.Now.Hour == 23)
             {
-                return new ErrorDataResult<List<User>>(Message.MaintenanceTime);
+                return new ErrorDataResult<List<User>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<User>>(_userDal.GetAll(), Message.UsersListed);
+            return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UsersListed);
         }
 
         public IDataResult<User> GetUserId(int userId)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.UserId == userId), Message.UserFound);
+            return new SuccessDataResult<User>(_userDal.Get(u => u.UserId == userId), Messages.UserFound);
 
         }
 
@@ -57,8 +56,9 @@ namespace Business.Concrete
 
         public IResult Update(User user)
         {
+            ValidationTool.Validate(new UserValidator(), user);
             _userDal.Update(user);
-            return new SuccessResult(Message.UserUpdate);
+            return new SuccessResult(Messages.UserUpdate);
         }
     }
 }
